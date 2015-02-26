@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <vector>
 #include <iomanip>
 
 using namespace std;
@@ -25,6 +26,14 @@ struct Field{
 	char name[15];
 	int integer;
 	int size;
+};
+
+struct Table{
+    vector<Field> fields;
+};
+
+struct Record{
+    vector<Field> fields;
 };
 
 istream& operator>>(istream& in, Field& field){
@@ -164,6 +173,29 @@ void addRecord(){
     in.read((char*)&records, sizeof(int));
     for (int i = 0; i < fields; i++) {
         in.read(reinterpret_cast<char*>(&arrFields[i]),sizeof(Field));
+    }
+    int actualbyte=0;
+    for (int i = 0; i < fields; i++) {
+        cout << "Ingrese " << arrFields[i].name << ": ";
+        char input[rrn*2];
+        if (!arrFields[i].integer) {
+            char input[rrn*2];
+            cin >> input;
+            for (int i = 0; i < rrn; i++) {
+                buffer[actualbyte+i] = input[i];
+                if (input[i] == '\0') break; //if the string is shorter than MAXI
+            }
+            actualbyte=1+actualbyte+arrFields[i].size;
+        } else {
+            char input[rrn*2];
+            cin >> input;
+            for (int i = 0; i < rrn; i++) {
+                buffer[actualbyte+i] = input[i];
+                if (input[i] == '\0') break; //if the string is shorter than MAXI
+            }
+            actualbyte=1+actualbyte+arrFields[i].size;
+        }
+
     }
     
 
